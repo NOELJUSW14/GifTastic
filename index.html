@@ -11,8 +11,13 @@
     <div class="container-fluid">
         <div class="box" id="btnContainer"></div>
         <div class="box">
-            <div class="col-9" id="image-container"></div>
-            <div class="col-3" id="btnCreator">
+            <div class="col-9">
+                <div class="row" id="image-container"></div>
+            </div>
+            <div class="col-3">
+                <div class="row" id="btnCreator">
+
+                </div>
                 <p id="title">Add An Image!</p>
                 <input id="image-request">
                 <button class="btn btn-primary" id="requestBtn">Submit!</button>
@@ -26,57 +31,70 @@
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
   crossorigin="anonymous"></script>
   <script type="text/javascript">
+ 
 //----------------------------------------------------------------------------------------------------------------------->
 //On click eventListener
   $('#requestBtn').on('click',function(){
+    //create gif button
+    function renderBtn(){
+    //$('#btnContainer').empty()
+    var queryItem = $('#image-request').val().trim();
+    var newGifBtn = $('<button>');
+    var newGif = newGifBtn.text(queryItem)
+    //attr('id',imageCatch)
 
-//Create input place holder
-var queryItem = $('#image-request').val()
+    $('#btnContainer').append(newGif)
+}
+renderBtn()
+//link gif button to JSON
+$(document).on('click','#btnContainer',function(){
 //URL we need to query the database
-// var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + queryItem
-//   "&api_key=8KPacEOHW0zxT9ub98owx4vIFueClOCm&limit=10";
-//---------------------------------------------------------------------------------------------------------------------->
-console.log(queryItem)
-//Create a button after on click function
-
-function renderBtn(){
-    $('#btnContainer').empty()
-
-    var newGif = $('<button>').text(queryItem)
-    var newGifBtn = $('<button>')
-
-    ('#btnContainer').append(newGif)
-} 
-
-
-    renderBtn()
-})
+var linkURL = "https://api.giphy.com/v1/gifs/search?q="
+var apiKey = "&api_key=dc6zaTOxFJmzC&limit=10"
+//Create input place holder
+ queryItem = $('#image-request').val().trim();
+ var queryURL = linkURL+queryItem+apiKey;
 // Here we run our AJAX call to the Giphy API
 $.ajax({
   url: queryURL,
   method: "GET"
 })
-  // We store all of the retrieved data inside of an object called "response"
-  .then(function(response) {
-    // Log the resulting object in the console
-    console.log(response);
+// We store all of the retrieved data inside of an object called "response"
+.then(function(response) {
+// Log the resulting object in the console
+console.log(response);
+//for(var i =0; i < response.data.image_original_url.length; i++){
+var imageUrl = response.data.image_original_url;
+//var newImage = $('<img src='+ imageUrl +'>' );
+$('#image-container').append(imageUrl)
 
-    var imageUrl = response.data.image_original_url;
-    var newImage = $('<img>')
-    newImage.attr('src',imageUrl)
-    newImage.attr('alt','product image')
+  });
+})
+})
+  
+  
+
+ 
+    //newImage.attr('alt',response.name)
 
     // Transfer content to HTML
-    $('#image-conatainer').prepend(newImage)
+    //$('#image-conatainer').prepend(newImage)
 
-    
-   // $("#image-container").html("<img>" + response.img + "</img>");
-    
 
-   
-  
-  });
+//})    
+
+ 
+    
+//---------------------------------------------------------------------------------------------------------------------->
+
+//Create a button after on click function
 
   </script>
 </body>
 </html>
+
+    
+    
+  
+
+ 
