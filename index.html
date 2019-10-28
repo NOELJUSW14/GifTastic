@@ -11,14 +11,13 @@
     <div class="container-fluid">
         <div class="box" id="btnContainer"></div>
         <div class="box">
-                <div id="image-container"> </div>
-            
                 <div class="row" id="btnCreator">
 
                 </div>
                 <p id="title">Add An Image!</p>
                 <input id="image-request">
                 <button class="btn btn-primary" id="requestBtn">Submit!</button>
+                <div id="image-container"> </div>
         </div>
         </div>
     </div>
@@ -28,133 +27,6 @@
   src="https://code.jquery.com/jquery-3.4.1.min.js"
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
   crossorigin="anonymous"></script>
-  <script type="text/javascript">
- 
-//----------------------------------------------------------------------------------------------------------------------->
-
-//On click eventListener
-  $(document).ready(function(){
-    var btnContainer = ["chicken","disco","bmw"];
-//----------------------------------------------------------------------------->
-//
-//----------------------------------------------------------------------------->
-//button creator from user submit
-function renderBtn(){
-    $('#btnContainer').empty()
-    for(var i =0; i < btnContainer.length; i++){
-        var newGifBtn = $('<button>');
-            newGifBtn.addClass('gif-button');
-            newGifBtn.addClass('btn btn-primary')
-            newGifBtn.attr('data-name',btnContainer[i]);//probably need to change array
-            newGifBtn.text(btnContainer[i]);
-            $('#btnContainer').append(newGifBtn)
-    
-}}
-function addButton(){
-$('#requestBtn').on('click',function(event){
-//Create input place holder
-var queryItem = $('#image-request').val().trim();
-if (queryItem == ""){
-      return false;
-       // added so user cannot add a blank button
-       event.preventDefault();
-    }else{
-        queryItem.push(btnContainer)
-    } 
-    renderBtn();
-    return false;
-})
-
-
-    }
-
-
-
-function getGif(){//1
-var queryItem = $(this).attr('data-name');
-var linkURL = "https://api.giphy.com/v1/gifs/search?q=";
-var apiKey = "&api_key=dc6zaTOxFJmzC&limit=10";
-var queryURL = linkURL+queryItem+apiKey;
-// Here we run our AJAX call to the Giphy API
-$.ajax({//2
-  url: queryURL,
-  method: "GET"
-})//2
-// We store all of the retrieved data inside of an object called "response"
-.then(function (data) {//3
-// Log the resulting object in the console
-console.log(data);
-$('#image-container').empty();
-var response = data.data;
-if(response ==""){//4
-    alert('No can do!')
-}//4
-for(var i =0; i <response.lenght; i++){//5
-   var newGiphy = $('<div>')
-    newGiphy.addClass('gifDiv');
-    var giphyRating = $('<p>').text('Rating:'+response[i].rating);
-    newGiphy.append(giphyRating);
-    var gifImage= $('<img>');
-    gifImage.attr("src", response[i].images.fixed_height_small_still.url); 
-    gifImage.attr("data-still",response[i].images.fixed_height_small_still.url); 
-    gifImage.attr("data-animate",response[i].images.fixed_height_small.url);
-    gifImage.attr("data-state", "still");
-    gifImage.addClass("image");
-    gifDiv.append(gifImage);
-            
-            $("#image-container").prepend(newGiphy);
-}//5
-})//3
-
-    
-
-}//1
-renderBtn()
-addButton()
-getGif()
-$(document).on("click", ".gifButton", getGif);
-$(document).on("click", ".image", function(){
-    var state = $(this).attr('data-state');
-    if ( state == 'still'){
-        $(this).attr('src', $(this).data('animate'));
-        $(this).attr('data-state', 'animate');
-    }else{
-        $(this).attr('src', $(this).data('still'));
-        $(this).attr('data-state', 'still');
-    }
-});
-})
-    
-
-
-//--------------------------------------------------------------------------------->
-
-//---------------------------------------------------------------------------------->
-//Now these buttons have to pull the gif from the API
-
-
-
-
-  
-
-//link gif button to JSON
-//$(document).on('click','#btnContainer',function(){
-//URL we need to query the database
- 
-    //newImage.attr('alt',response.name)
-
-    // Transfer content to HTML
-    //$('#image-conatainer').prepend(newImage)
-
-
-//})    
-
- 
-    
-//---------------------------------------------------------------------------------------------------------------------->
-
-//Create a button after on click function
-
-  </script>
+  <script type="text/javascript" src="./assets/javascript/giphy.js"></script>
 </body>
 </html>
